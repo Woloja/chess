@@ -9,7 +9,7 @@
  |
  */
 
-const fs = require('fs');
+// const fs = require('fs');
 const mix = require('laravel-mix');
 
 // const mqpacker = require('css-mqpacker'); // combaine all media queries by a groups
@@ -20,10 +20,6 @@ const mix = require('laravel-mix');
 //     postCss: [
 //         require('css-mqpacker')({
 //             sort: sortCSSmq
-//         }),
-//         require('autoprefixer')({
-//             // grid: "autoplace",
-//             remove: true
 //         })
 //     ]
 // });
@@ -66,21 +62,11 @@ if (mix.inProduction()) {
     });
 }
 
-mix.copyDirectory('src/structure', 'public'); // pages structure
-mix.copyDirectory('src/lang', 'public/lang'); // pages translations
-mix.copyDirectory('src/parts', 'public/parts'); // pages templates
-mix.copyDirectory('src/php', 'public/php'); // simple config
+mix.copy('src/index.html', 'public/index.html');
+// mix.copyDirectory('src/images', 'public/images');
 
-mix.copyDirectory('src/assets/images', 'public/images');
-mix.copyDirectory('src/assets/favicon', 'public/favicon');
-
-mix.copyDirectory('html/js/*', 'public/js');
-mix.copyDirectory('html/css/*', 'public/css');
-mix.copyDirectory('html/images/*', 'public/images');
-mix.copyDirectory('html/media', 'public/images/media');
-
-mix.js(['src/assets/js/ukraine.js'], 'public/js');
-mix.sass('src/assets/sass/app.sass', 'public/css/ukraine.css');
+mix.js(['src/js/app.js'], 'public/js');
+mix.sass('src/sass/app.sass', 'public/css/app.css');
 
 // mix.sourceMaps(); // Enable sourcemaps
 mix.version(); // Enable versioning.
@@ -88,9 +74,6 @@ mix.version(); // Enable versioning.
 
 // mix.browserSync({
 //     watch: true,
-//     files: ['public', 'public/**/*.+(html|php)'],
-//     open: 'http://pixel-map.local/',
-//     reloadDelay: 1000,
 //     server: {
 //         baseDir: './public/'
 //     }
