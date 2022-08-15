@@ -1,0 +1,35 @@
+.main-wrapper
+    width: 100%
+    display: flex
+    align-items: flex-start
+    align-content: flex-start
+
+.chess
+    width: 50%
+    background: rgb(88 44 0)
+    padding: px-to-rem(50px)
+
+.chess-item
+    display: flex
+    position: relative
+    padding-bottom: 100%
+
+.chess-item a
+    inset: 0
+    position: absolute
+    display: flex
+    align-items: center
+    justify-content: center
+
+.chess-item.player a
+    width: 50%
+    height: 50%
+    margin: auto
+
+.chess-item.dark a
+    background: #000
+    color: #fff
+
+.chess-item.white a
+    background: antiquewhite
+    color: #000
