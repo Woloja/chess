@@ -4,10 +4,19 @@
     align-items: flex-start
     align-content: flex-start
 
-.chess
-    width: 50%
-    background: rgb(88 44 0)
+.chess,
+.output
     padding: px-to-rem(50px)
+
+.chess
+    width: 75%
+    background: rgb(88 44 0)
+
+.output
+    width: 25%
+
+.start
+    text-decoration: underline
 
 .chess-item
     display: flex
@@ -33,3 +42,9 @@
 .chess-item.white a
     background: antiquewhite
     color: #000
+
+.chess-item.focused
+    box-shadow: 0 0 0 4px #6a6a6a inset
+
+.chess-item.selected
+    box-shadow: 0 0 0 5px #0030fe inset

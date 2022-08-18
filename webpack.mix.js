@@ -24,10 +24,11 @@ const mix = require('laravel-mix');
 //     ]
 // });
 
-mix.setPublicPath('/');
+mix.setPublicPath('public');
 mix.webpackConfig({
     output: {
-        chunkFilename: 'public/js/chunks/[name].js'
+        // chunkFilename: 'public/js/chunks/[name].js',
+        chunkFilename: 'js/chunks/[name].js'
     },
     module: {
         rules: []
