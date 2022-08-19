@@ -25,7 +25,6 @@ export default class ChessGame {
                 result[i].push(this._factory(i, j));
             }
         }
-
         this.#grid = result;
     }
 
@@ -46,7 +45,9 @@ export default class ChessGame {
             this.#focused.container.classList.remove('focused');
         }
 
-        instance.container.classList.add('focused');
+        if (instance) {
+            instance.container.classList.add('focused');
+        }
         this.#focused = instance;
     }
 
@@ -90,6 +91,22 @@ export default class ChessGame {
         return this;
     }
 
+    install() {
+        this.root.style.display = 'grid';
+        this.root.style.gridTemplateColumns = `repeat(${this.grid.length}, 1fr)`;
+        this.action = document.querySelector('#action');
+        this._render();
+    }
+
+    start() {
+        this.player = 'white';
+        window.addEventListener('keydown', this._moveAndSubmit.bind(this));
+        this._focusFirst();
+        this._noticeMove();
+
+        return this;
+    }
+
     _factory(x, y) {
         let instance;
         const player = [0, 1].includes(x) ? 'dark' : 'white';
@@ -119,8 +136,6 @@ export default class ChessGame {
             instance = new Figure();
         }
 
-        this.root.insertAdjacentElement('beforeend', instance.container);
-        instance.setColor(x, y);
         instance.position = { x, y };
 
         return instance;
@@ -130,15 +145,21 @@ export default class ChessGame {
         if (!Object.keys(KEYS).includes(evt.which.toString())) {
             return false;
         }
+
         const current = JSON.parse(JSON.stringify(this.focused.position));
         const direction = KEYS[evt.which];
 
         if (direction === 'esc') {
+            this.focused = this.selected;
             this.selected = null;
             this._noticeMove();
-        } else if (direction === 'enter' && !this.selected) {
-            this.selected = this.focused;
-            this._noticeSelect();
+        } else if (direction === 'enter') {
+            if (!this.selected) {
+                this.selected = this.focused;
+                this._noticeSelect();
+            } else {
+                this._replace();
+            }
         } else if (direction === 'top' && current.x > 0) {
             current.x = current.x - 1;
         } else if (direction === 'bottom' && current.x < this.size - 1) {
@@ -149,26 +170,7 @@ export default class ChessGame {
             current.y = current.y - 1;
         }
 
-        const next = this.grid[current.x][current.y];
-
-        if (this.selected || next.player === this.player) {
-            this.focused = this.grid[current.x][current.y];
-        }
-    }
-
-    install() {
-        this.root.style.display = 'grid';
-        this.root.style.gridTemplateColumns = `repeat(${this.grid.length}, 1fr)`;
-        this.action = document.querySelector('#action');
-    }
-
-    start() {
-        this.player = 'white';
-        window.addEventListener('keydown', this._moveAndSubmit.bind(this));
-        this._focusFirst();
-        this._noticeMove();
-
-        return this;
+        this.focused = this.grid[current.x][current.y];
     }
 
     _focusFirst() {
@@ -181,6 +183,42 @@ export default class ChessGame {
         }
 
         this.focused = select;
+    }
+
+    _replace() {
+        if (this.focused.player === this.player) {
+            // TODO casting if needed
+            return false;
+        }
+
+        const position = this.selected.position;
+        const instance = new Figure();
+        this.grid[this.focused.position.x][this.focused.position.y] = this.selected;
+        this.grid[position.x][position.y] = instance;
+        instance.position = { x: position.x, y: position.y };
+        this.selected.position = { x: this.focused.position.x, y: this.focused.position.y };
+
+        this.selected = null;
+        this.focused = null;
+        if (this.player === 'white') {
+            this.player = 'dark';
+        } else {
+            this.player = 'white';
+        }
+        this._render();
+        this._focusFirst();
+        this._noticeMove();
+    }
+
+    _render() {
+        this.root.innerHTML = '';
+        this.grid.forEach((row) => {
+            row.forEach((instance) => {
+                const { x, y } = instance.position;
+                this.root.insertAdjacentElement('beforeend', instance.container);
+                instance.setColor(x, y);
+            });
+        });
     }
 
     _noticeMove() {
