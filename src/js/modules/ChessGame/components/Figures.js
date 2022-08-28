@@ -1,3 +1,5 @@
+const debug = false;
+
 export class Figure {
     #name = '';
     get name() {
@@ -75,16 +77,14 @@ export class Figure {
     }
 
     _render() {
-        let index = this.calcIndex();
+        const icon = this.name ? `<img src="/images/${this.player}/${this.name}.svg" alt="${this.player} - ${this.name}" />` : '';
+        const info = debug ? `<p class="info"><span>${JSON.stringify(this.position)}</span> - <span>${this.calcIndex()}</span></p>` : '';
 
-        if (this.player) {
-            this.container.innerHTML = `<a href="javascript: void(0)">${this.name} ${JSON.stringify(this.position)}${index}</a>`;
-        } else {
-            this.container.innerHTML = `<a href="javascript: void(0)">${JSON.stringify(this.position)}${index}</a>`;
-        }
+        this.container.innerHTML = `<a href="javascript: void(0)">${icon + info}</a>`;
     }
 }
 
+// +
 export class RookFigure extends Figure {
     constructor(player) {
         super(player, 'Rook');
@@ -92,6 +92,7 @@ export class RookFigure extends Figure {
     }
 }
 
+// +
 export class KnightFigure extends Figure {
     constructor(player) {
         super(player, 'Knight');
@@ -99,6 +100,7 @@ export class KnightFigure extends Figure {
     }
 }
 
+// +
 export class BishopFigure extends Figure {
     constructor(player) {
         super(player, 'Bishop');
@@ -106,6 +108,7 @@ export class BishopFigure extends Figure {
     }
 }
 
+// +
 export class QueenFigure extends Figure {
     constructor(player) {
         super(player, 'Queen');
@@ -113,6 +116,7 @@ export class QueenFigure extends Figure {
     }
 }
 
+// +
 export class KingFigure extends Figure {
     constructor(player) {
         super(player, 'King');
@@ -120,6 +124,7 @@ export class KingFigure extends Figure {
     }
 }
 
+// +
 export class PawnFigure extends Figure {
     constructor(player) {
         super(player, 'Pawn');

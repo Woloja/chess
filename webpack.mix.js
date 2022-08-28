@@ -67,7 +67,7 @@ if (mix.inProduction()) {
 }
 
 mix.copy('src/index.html', 'public/index.html');
-// mix.copyDirectory('src/images', 'public/images');
+mix.copyDirectory('src/images', 'public/images');
 
 mix.js(['src/js/app.js'], 'public/js');
 mix.sass('src/sass/app.sass', 'public/css/app.css');

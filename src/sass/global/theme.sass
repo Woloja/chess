@@ -9,11 +9,12 @@
     padding: px-to-rem(50px)
 
 .chess
-    width: 75%
+    grid-gap: 2px
+    width: 50%
     background: rgb(88 44 0)
 
 .output
-    width: 25%
+    width: 50%
 
 .start
     text-decoration: underline
@@ -27,24 +28,66 @@
     inset: 0
     position: absolute
     display: flex
+    flex-flow: column
     align-items: center
     justify-content: center
-
-.chess-item.player a
     width: 50%
     height: 50%
     margin: auto
 
-.chess-item.dark a
-    background: #000
-    color: #fff
-
-.chess-item.white a
-    background: antiquewhite
-    color: #000
+//.chess-item.dark a
+//    //background: #000
+//    color: #fff
+//
+//.chess-item.white a
+//    //background: antiquewhite
+//    color: #000
 
 .chess-item.focused
     box-shadow: 0 0 0 4px #6a6a6a inset
 
 .chess-item.selected
     box-shadow: 0 0 0 5px #0030fe inset
+
+.chess-item.highlights
+    box-shadow: 0 0 0 100vw rgba(5, 254, 0, 0.4) inset
+
+.chess-item.highlights.focused
+    box-shadow: 0 0 0 5px #6a6a6a inset, 0 0 0 100vw rgba(5, 254, 0, 0.4) inset
+
+[data-key-y]:after,
+[data-key-x]:before
+    text-transform: uppercase
+    text-align: center
+    position: absolute
+    z-index: 10
+    line-height: 1
+    display: flex
+    align-items: center
+    justify-content: center
+    margin: auto
+    background: #ffffff
+    width: px-to-rem(25px)
+    height: px-to-rem(25px)
+    font-size: px-to-rem(20px)
+
+[data-key-x]:before
+    content: attr(data-key-x)
+    bottom: 100%
+    right: 0
+    left: 0
+    margin-bottom: px-to-rem(5px)
+
+[data-key-y]:after
+    content: attr(data-key-y)
+    top: 0
+    bottom: 0
+    right: 100%
+    margin-right: px-to-rem(5px)
+
+p.info
+    position: absolute
+    top: 100%
+    left: 0
+    right: 0
+    white-space: nowrap
