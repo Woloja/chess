@@ -259,8 +259,8 @@ export default class ChessGame {
         const player = [0, 1].includes(x) ? 'dark' : 'white';
 
         if (x === 1 || x === this.size - 2) {
-            instance = new PawnFigure(player);
-            // instance = new Figure();
+            // instance = new PawnFigure(player);
+            instance = new Figure();
         } else if (x === 0 || x === this.size - 1) {
             switch (y) {
                 case 0:
